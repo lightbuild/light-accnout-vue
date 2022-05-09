@@ -1,18 +1,18 @@
 <template>
   <div class="tags">
-    <div class="button-new">
-      新增标签
-    </div>
     <ul class="container">
-      <li>衣服</li>
-      <li>食物</li>
-      <li>住宿</li>
-      <li>出行</li>
-      <li>衣服</li>
-      <li>食物</li>
-      <li>住宿</li>
-      <li>出行</li>
+      <li>衣</li>
+      <li>食</li>
+      <li>住</li>
+      <li>行</li>
+      <li>衣</li>
+      <li>食</li>
+      <li>住</li>
+      <li>出</li>
     </ul>
+    <div class="button-new">
+      <button>新增标签</button>
+    </div>
   </div>
 </template>
 
@@ -29,31 +29,43 @@
 <style lang="scss" scoped>
   @use "sass:math";
   @import "~@/assets/style/reset.scss";
-  .tags{
+  
+  .tags {
     font-size: 14px;
     background: white;
-    border: 1px solid red;
     display: flex;
-    flex-direction: column-reverse;
-    .container{
+    flex-direction: column;
+    
+    .container {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-start;
       align-content: center;
-      > li{
+      
+      > li {
         display: flex;
         align-items: center;
-        $h:24px;
+        $h: 24px;
         height: $h;
         background: #D9D9D9;
-        border-radius: math.div($h,2);
-        margin:16px;
+        border-radius: math.div($h, 2);
         padding: 2px 18px;
-        border: 1px solid red;
+        outline: 0.3em  solid black;
+        margin: 16px;
       }
     }
-    .button-new{
-      border: 1px solid red;
+    
+    > .button-new {
+      margin-top: 10px;
+      margin-bottom: 5px;
+      > button {
+        margin-left: 16px;
+        border: none;
+        background: transparent;
+        color: #999999;
+        border-bottom: 1px solid;
+        padding: 0 4px;
+      }
     }
   }
 </style>

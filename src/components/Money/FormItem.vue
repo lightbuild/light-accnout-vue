@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <div class="form-item">
+    <label>
+      <span class="name">备注</span>
+      <input type="text" placeholder="在这里可以为标签添加备注">
+    </label>
   </div>
 </template>
 
@@ -14,5 +18,22 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .form-item {
+    padding-top: 25px;
+    padding-bottom: 26px;
+    background: #e5e5e5;
+    display: flex;
+    padding-left: 16px;
+    align-items: center;
+    
+    .name {
+      padding-right: 16px;
+    }
+    
+    input {
+      border: none;
+      height: 40px;
+      background: transparent;
+    }
+  }
 </style>
