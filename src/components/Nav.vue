@@ -17,5 +17,20 @@
 </script>
 
 <style lang="scss" scoped>
-
+  @import "~@/assets/style/helper.scss";
+  #nav {
+    @extend %outShadow;
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    justify-content: center;
+    padding: 30px;
+    a {
+      font-weight: bold;
+      color: #2c3e50;
+      &.router-link-exact-active {
+        color: #42b983;
+      }
+    }
+  }
 </style>

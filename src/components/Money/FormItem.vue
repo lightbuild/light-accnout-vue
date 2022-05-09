@@ -1,5 +1,6 @@
 <template>
-  <div>我是备注</div>
+  <div>
+  </div>
 </template>
 
 <script lang="ts">
