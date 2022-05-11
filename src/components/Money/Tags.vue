@@ -15,15 +15,10 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  interface TagsType {
-    name:string,
-    id:number
-  }
-  //有点感觉了，interface是接口，描述一个对象
-  //type 是可以直接定义一个变量
+ 
   @Component
   export default class Tags extends Vue {
-    tags: TagsType[]=[
+    tags: TagsItem[]=[
       {name:'衣',id:1},
       {name:'食',id:2},
       {name:'住',id:3},
@@ -55,7 +50,7 @@
         if(nameList.includes(value)){
           alert("标签名重复了")
         }else{
-          let newTag:TagsType ={
+          let newTag:TagsItem ={
             name:value,
             id:newId
           }
