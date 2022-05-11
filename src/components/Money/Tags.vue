@@ -1,17 +1,13 @@
 <template>
   <div class="tags">
     <ul class="container">
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>出</li>
+      <li v-for="tag in tags" :key="tag.id"
+          @click="toggle(tag.name,$event)"
+          :class="{selected:selectedTags.includes(tag.name)}"
+      >{{tag.name}}</li>
     </ul>
     <div class="button-new">
-      <button>新增标签</button>
+      <button @click="createTag">新增标签</button>
     </div>
   </div>
 </template>
@@ -19,10 +15,55 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  
+  interface TagsType {
+    name:string,
+    id:number
+  }
+  //有点感觉了，interface是接口，描述一个对象
+  //type 是可以直接定义一个变量
   @Component
   export default class Tags extends Vue {
-  
+    tags: TagsType[]=[
+      {name:'衣',id:1},
+      {name:'食',id:2},
+      {name:'住',id:3},
+      {name:'行',id:4},
+    ]
+    selectedTags:string[]= []
+    
+    toggle(name:string,e:PointerEvent):void{
+      if (this.selectedTags.includes(name)){
+          const index = this.selectedTags.indexOf(name);
+          this.selectedTags.splice(index,1);
+      }else {
+        this.selectedTags.push(name)
+      }
+      console.log(e)
+    }
+    
+    createdId():number{
+      let id = this.tags[this.tags.length-1].id;
+      id++
+      return id;
+    }
+    createTag(e:PointerEvent):void{
+      console.log(e);
+      let value = prompt('请输入标签名')
+      let newId = this.createdId();
+      let nameList = this.tags.map(e => e.name);
+      if (value){
+        if(nameList.includes(value)){
+          alert("标签名重复了")
+        }else{
+          let newTag:TagsType ={
+            name:value,
+            id:newId
+          }
+          this.tags.push(newTag)
+        }
+      }
+      console.log(this.tags);
+    }
   }
 </script>
 
@@ -52,6 +93,12 @@
         padding: 2px 18px;
         outline: 0.3em  solid black;
         margin: 16px;
+        
+        &.selected{
+          outline: 0.3em solid green;
+          background: darken(#D9D9D9,50%);
+          color: white;
+        }
       }
     }
     
