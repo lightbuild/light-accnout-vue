@@ -2,7 +2,7 @@
   <div class="tags">
     <ul class="container">
       <li v-for="tag in tags" :key="tag.id"
-          @click="toggle(tag.name,$event)"
+          @click="toggle(tag.name)"
           :class="{selected:selectedTags.includes(tag.name)}"
       >{{tag.name}}</li>
     </ul>
@@ -26,14 +26,15 @@
     ]
     selectedTags:string[]= []
     
-    toggle(name:string,e:PointerEvent):void{
+    toggle(name:string):void{
+      let test = this.$store.state.myFood.someField
+      console.log(test);
       if (this.selectedTags.includes(name)){
           const index = this.selectedTags.indexOf(name);
           this.selectedTags.splice(index,1);
       }else {
         this.selectedTags.push(name)
       }
-      console.log(e)
     }
     
     createdId():number{
@@ -57,7 +58,6 @@
           this.tags.push(newTag)
         }
       }
-      console.log(this.tags);
     }
   }
 </script>
