@@ -1,21 +1,21 @@
 <template>
   <div class="number-pad">
-    <div class="output">100</div>
+    <div class="output">{{output}}</div>
     <div class="buttons">
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>删除</button>
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button>清空</button>
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button class="ok">OK</button>
-      <button class="zero">0</button>
-      <button>.</button>
+      <button @click="updateInput">1</button>
+      <button @click="updateInput">2</button>
+      <button @click="updateInput">3</button>
+      <button @click="remove" class="delete">删除</button>
+      <button @click="updateInput">4</button>
+      <button @click="updateInput">5</button>
+      <button @click="updateInput">6</button>
+      <button @click="clear" class="clear">清空</button>
+      <button @click="updateInput">7</button>
+      <button @click="updateInput">8</button>
+      <button @click="updateInput">9</button>
+      <button @click="ok" class="ok">OK</button>
+      <button @click="updateInput" class="zero">0</button>
+      <button @click="updateInput">.</button>
     </div>
   </div>
 </template>
@@ -26,7 +26,34 @@
   
   @Component
   export default class NumberPad extends Vue {
-  
+   output = '0'
+   updateInput(event:MouseEvent) : void{
+     const value = event.target.textContent
+     if(this.output.length > 16){return}
+     if(this.output === '0'){
+       if ('0123456789'.indexOf(value) >= 0){
+         this.output = value
+       }else{
+         this.output += value
+       }
+       return
+     }
+     if(this.output.indexOf('.')>=0 && value === '.'){return}
+     this.output += value
+   }
+   remove(){
+     if (this.output.length === 1 ){
+       this.output = '0'
+     }else {
+       this.output = this.output.slice(0,-1)
+     }
+   }
+   clear(){
+     this.output = '0'
+   }
+   ok(){
+     console.log('ok');
+   }
   }
 </script>
 
