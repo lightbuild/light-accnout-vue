@@ -27,8 +27,6 @@
     selectedTags:string[]= []
     
     toggle(name:string):void{
-      let test = this.$store.state.myFood.someField
-      console.log(test);
       if (this.selectedTags.includes(name)){
           const index = this.selectedTags.indexOf(name);
           this.selectedTags.splice(index,1);
@@ -36,14 +34,12 @@
         this.selectedTags.push(name)
       }
     }
-    
     createdId():number{
       let id = this.tags[this.tags.length-1].id;
       id++
       return id;
     }
-    createTag(e:PointerEvent):void{
-      console.log(e);
+    createTag():void{
       let value = prompt('请输入标签名')
       let newId = this.createdId();
       let nameList = this.tags.map(e => e.name);
@@ -59,6 +55,8 @@
         }
       }
     }
+    
+ 
   }
 </script>
 

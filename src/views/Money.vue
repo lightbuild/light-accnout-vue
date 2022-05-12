@@ -1,8 +1,9 @@
 <template>
   <layout class-prefix="layout">
+    {{record}}
     <NumberPad/>
     <Tab/>
-    <FormItem/>
+    <FormItem v-on:update-value="onFormItem"/>
     <Tags/>
   </layout>
 </template>
@@ -20,7 +21,18 @@
     components: {NumberPad, Tab, FormItem, Layout, Tags}
   })
   export default class Money extends Vue {
-  
+    record : RecordItem = {
+      tags:[],
+      notes:'',
+      type:'-',
+      amount:0
+    }
+      
+      onFormItem(value:string) : void{
+      this.record.notes= value
+    }
+    
+    
   }
 </script>
 

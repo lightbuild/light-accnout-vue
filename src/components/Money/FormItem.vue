@@ -2,7 +2,8 @@
   <div class="form-item">
     <label>
       <span class="name">备注</span>
-      <input type="text" placeholder="在这里可以为标签添加备注">
+      <input type="text" placeholder="在这里可以为标签添加备注"
+             @change="$emit('update-value',$event.target.value)">
     </label>
   </div>
 </template>
