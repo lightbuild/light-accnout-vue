@@ -1,6 +1,6 @@
 <template>
   <div class="number-pad">
-    <div class="output">{{output}}</div>
+    <div class="output">{{ output }}</div>
     <div class="buttons">
       <button @click="updateInput">1</button>
       <button @click="updateInput">2</button>
@@ -22,38 +22,46 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
   
   @Component
   export default class NumberPad extends Vue {
-   output = '0'
-   updateInput(event:MouseEvent) : void{
-     const value = event.target.textContent
-     if(this.output.length > 16){return}
-     if(this.output === '0'){
-       if ('0123456789'.indexOf(value) >= 0){
-         this.output = value
-       }else{
-         this.output += value
-       }
-       return
-     }
-     if(this.output.indexOf('.')>=0 && value === '.'){return}
-     this.output += value
-   }
-   remove(){
-     if (this.output.length === 1 ){
-       this.output = '0'
-     }else {
-       this.output = this.output.slice(0,-1)
-     }
-   }
-   clear(){
-     this.output = '0'
-   }
-   ok(){
-     console.log('ok');
-   }
+    @Prop(Number) oldNumber!: number;
+    output = this.oldNumber.toString();
+    
+    updateInput(event: MouseEvent): void {
+      const target = event.target as HTMLButtonElement;
+      const value = target.textContent!;
+      if (this.output.length > 16) {return;}
+      if (this.output === '0') {
+        if ('0123456789'.indexOf(value) >= 0) {
+          this.output = value;
+        } else {
+          this.output += value;
+        }
+        return;
+      }
+      if (this.output.indexOf('.') >= 0 && value === '.') {return;}
+      this.output += value;
+    }
+    
+    remove(): void {
+      if (this.output.length === 1) {
+        this.output = '0';
+      } else {
+        this.output = this.output.slice(0, -1);
+      }
+    }
+    
+    clear(): void {
+      this.output = '0';
+    }
+    
+    ok(): void {
+      const newNumber = parseFloat(this.output);
+      this.$emit('update:oldNumber', newNumber);
+      console.log('ok');
+    }
   }
 </script>
 
@@ -74,6 +82,7 @@
     
     .buttons {
       @extend %clearFix;
+      
       > button {
         border: none;
         background: transparent;
@@ -90,32 +99,34 @@
           width: 25*2%;
         }
         
-        $bg:#f2f2f2;
+        $bg: #f2f2f2;
         
-        &:nth-child(1){
+        &:nth-child(1) {
           background: $bg;
         }
         
-        &:nth-child(2),&:nth-child(5){
-          background: darken($bg,4%);
+        &:nth-child(2), &:nth-child(5) {
+          background: darken($bg, 4%);
         }
         
-        &:nth-child(3),&:nth-child(6),&:nth-child(9){
-          background: darken($bg,8%);
+        &:nth-child(3), &:nth-child(6), &:nth-child(9) {
+          background: darken($bg, 8%);
         }
-        &:nth-child(4),&:nth-child(7),&:nth-child(10){
-          background: darken($bg,12%);
+        
+        &:nth-child(4), &:nth-child(7), &:nth-child(10) {
+          background: darken($bg, 12%);
         }
-        &:nth-child(8),&:nth-child(11),&:nth-child(13){
-          background: darken($bg,16%);
+        
+        &:nth-child(8), &:nth-child(11), &:nth-child(13) {
+          background: darken($bg, 16%);
         }
         
         &:nth-child(14) {
-          background: darken($bg,20%);
+          background: darken($bg, 20%);
         }
         
         &:nth-child(12) {
-          background: darken($bg,24%);
+          background: darken($bg, 24%);
         }
       }
     }

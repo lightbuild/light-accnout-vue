@@ -4,7 +4,7 @@ interface TagsItem {
 }
 
 interface RecordItem {
-  tags: TagsItem,
+  tags: TagsItem[],
   notes: string,
   type: string,
   amount: number,

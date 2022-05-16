@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
     <ul class="container">
-      <li v-for="tag in tags" :key="tag.id"
+      <li v-for="tag of dataSource" :key="tag.id"
           @click="toggle(tag.name)"
           :class="{selected:selectedTags.includes(tag.name)}"
       >{{tag.name}}</li>
@@ -14,16 +14,13 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
  
   @Component
   export default class Tags extends Vue {
-    tags: TagsItem[]=[
-      {name:'衣',id:1},
-      {name:'食',id:2},
-      {name:'住',id:3},
-      {name:'行',id:4},
-    ]
+    @Prop()  dataSource:TagsItem[] | undefined
+    @Prop()  recordTags:[] | undefined
+    
     selectedTags:string[]= []
     
     toggle(name:string):void{
@@ -32,31 +29,41 @@
           this.selectedTags.splice(index,1);
       }else {
         this.selectedTags.push(name)
-      }
-    }
-    createdId():number{
-      let id = this.tags[this.tags.length-1].id;
-      id++
-      return id;
-    }
-    createTag():void{
-      let value = prompt('请输入标签名')
-      let newId = this.createdId();
-      let nameList = this.tags.map(e => e.name);
-      if (value){
-        if(nameList.includes(value)){
-          alert("标签名重复了")
-        }else{
-          let newTag:TagsItem ={
-            name:value,
-            id:newId
-          }
-          this.tags.push(newTag)
-        }
+        this.$emit('update:recordTags',this.selectedTags)
       }
     }
     
- 
+    createdId():number{
+      if(this.dataSource?.length!==0){
+        let id = this.dataSource?.[this.dataSource.length-1].id;
+        id!++
+        return id!
+      }else{
+        let id = 0;
+        return id
+      }
+    }
+    
+    createTag():void {
+      let value = prompt('请输入标签名')
+      let nameList = this.dataSource?.map(e => e.name);
+      if (value) {
+        if (nameList?.includes(value)) {
+          alert("标签名重复了")
+        } else {
+          let newId = this.createdId();
+          let newTag: TagsItem = {
+            name: value,
+            id: newId
+          }
+          if(this.dataSource===undefined){
+            this.$emit('update:dataSource',[newTag])
+          }else {
+            this.$emit('update:dataSource',[...this.dataSource,newTag])
+          }
+        }
+      }
+    }
   }
 </script>
 

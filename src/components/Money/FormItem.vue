@@ -3,18 +3,18 @@
     <label>
       <span class="name">备注</span>
       <input type="text" placeholder="在这里可以为标签添加备注"
-             @change="$emit('update-value',$event.target.value)">
+             @input="$emit('input',$event.target.value)">
     </label>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Model, Prop} from 'vue-property-decorator';
   
   @Component
   export default class FormItem extends Vue {
-  
+    @Model('input',{type:String}) value!:string
   }
 </script>
 

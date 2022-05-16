@@ -1,24 +1,25 @@
 <template>
   <div class="tabs">
     <ul class="container">
-      <li :class="type === '-' && 'selected'" @click="select('-')">支出</li>
-      <li :class="type === '+' && 'selected'" @click="select('+')">收入</li>
+      <li :class="this.typeValue === '-' && 'selected'" @click="select('-')">支出</li>
+      <li :class="this.typeValue === '+' && 'selected'" @click="select('+')">收入</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
   
   @Component
   export default class Tab extends Vue {
-    type = '-'
+    @Prop(String) typeValue!:string
+    
     select(type:string):void{
       if(type!=="-" && type !=="+"){
         throw new Error('type is unknown')
       }
-      this.type = type;
+      this.$emit('update:typeValue',type)
     }
   }
 </script>
