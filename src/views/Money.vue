@@ -1,5 +1,5 @@
 <template>
-  <layout class-prefix="layout">
+  <layout class-prefix="layout-money">
     {{record}}
     <NumberPad :old-number.sync="record.amount" @submit="saveRecord"/>
     <Tab :type-value.sync="record.type"/>
@@ -39,7 +39,7 @@
 </script>
 
 <style lang="scss" scoped>
- ::v-deep .layout-content {
+ ::v-deep .layout-money-content {
    display: flex;
    flex-direction: column-reverse;
  }
