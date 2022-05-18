@@ -60,7 +60,8 @@
     ok(): void {
       const newNumber = parseFloat(this.output);
       this.$emit('update:oldNumber', newNumber);
-      console.log('ok');
+      this.$emit('submit')
+      this.output = '0'
     }
   }
 </script>

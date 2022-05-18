@@ -1,7 +1,8 @@
 <template>
   <div class="tags">
+    {{tagsList}}
     <ul class="container">
-      <li v-for="tag of dataSource" :key="tag.id"
+      <li v-for="tag of tagsList" :key="tag.id"
           @click="toggle(tag.name)"
           :class="{selected:selectedTags.includes(tag.name)}"
       >{{tag.name}}</li>
@@ -15,14 +16,21 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
+  import createdId from '@/lib/createId';
  
   @Component
   export default class Tags extends Vue {
-    @Prop()  dataSource:TagsItem[] | undefined
     @Prop()  recordTags:[] | undefined
-    
+    get tagsList(){
+      return this.$store.state.tagsList
+    }
     selectedTags:string[]= []
-    
+    created(){
+      this.$store.commit('fetchTag')
+    }
+    clearSelectedTags(){
+      this.selectedTags= []
+    }
     toggle(name:string):void{
       if (this.selectedTags.includes(name)){
           const index = this.selectedTags.indexOf(name);
@@ -32,37 +40,10 @@
         this.$emit('update:recordTags',this.selectedTags)
       }
     }
-    
-    createdId():number{
-      if(this.dataSource?.length!==0){
-        let id = this.dataSource?.[this.dataSource.length-1].id;
-        id!++
-        return id!
-      }else{
-        let id = 0;
-        return id
-      }
-    }
-    
-    createTag():void {
-      let value = prompt('请输入标签名')
-      let nameList = this.dataSource?.map(e => e.name);
-      if (value) {
-        if (nameList?.includes(value)) {
-          alert("标签名重复了")
-        } else {
-          let newId = this.createdId();
-          let newTag: TagsItem = {
-            name: value,
-            id: newId
-          }
-          if(this.dataSource===undefined){
-            this.$emit('update:dataSource',[newTag])
-          }else {
-            this.$emit('update:dataSource',[...this.dataSource,newTag])
-          }
-        }
-      }
+    createTag(){
+      let maxId = createdId(this.tagsList)
+      this.$store.commit('createTag',maxId)
+      this.$store.commit('saveTag')
     }
   }
 </script>
