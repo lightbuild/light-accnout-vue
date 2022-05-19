@@ -1,17 +1,14 @@
 <template>
   <layout class-prefix="edit-label">
-    <div class="icon-wrapper">
+    <div class="nav-bar">
       <Icon class="leftIcon" name="left" @click="goBack"/>
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
-    <div class="tag-wrapper">
-      <span>标签名</span>
-      <input type="text" :value="currentTag.name">
-    </div>
-    <div class="deleteTag-wrapper">
-      <button class="deleteTag">删除标签</button>
-    </div>
+    <Input field-name="标签名" placeholder="请输入标签名"
+           :value="currentTag.name"
+           @input="updateTag"/>
+    <Button class="delete-tag" button-name="删除标签"/>
   </layout>
 </template>
 
@@ -20,8 +17,10 @@
   import {Component} from 'vue-property-decorator';
   import Icon from '@/components/Icon.vue';
   import Layout from '@/components/Layout.vue';
+  import Button from '@/components/Button.vue';
+  import Input from '@/components/Input.vue';
   @Component({
-    components: {Layout, Icon}
+    components: {Input, Button, Layout, Icon}
   })
   export default class EditLabel extends Vue {
     created():void{
@@ -33,8 +32,10 @@
       return this.$store.state.currentTag
     }
     goBack(){
-      console.log('here');
       this.$router.go(-1)
+    }
+    updateTag(){
+      console.log('111');
     }
   }
 </script>
@@ -43,7 +44,7 @@
   .edit-label-wrapper{
     background: #e5e5e5;
   }
-  .icon-wrapper{
+  .nav-bar{
     background: white;
     display: flex;
     justify-content: space-between;
@@ -61,7 +62,7 @@
       height: 24px;
     }
   }
-  .tag-wrapper{
+  .form-item{
     background: white;
     font-size: 16px;
     padding: 12px 15px;
@@ -69,18 +70,7 @@
       margin-left: 12px;
     }
   }
-  .deleteTag-wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .delete-tag{
     margin-top: 500px;
-  
-    > .deleteTag{
-      color: white;
-      border-radius: 4px;
-      background: #767676;
-      font-size: 17px;
-      padding: 9px 16px;
-    }
   }
 </style>

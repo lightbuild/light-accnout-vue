@@ -1,8 +1,9 @@
 <template>
   <div class="form-item">
     <label>
-      <span class="name">备注</span>
-      <input type="text" placeholder="在这里可以为标签添加备注"
+      <span class="name">{{fieldName}}</span>
+      <input type="text" :placeholder="placeholder"
+             :value="value"
              @input="$emit('input',$event.target.value)">
     </label>
   </div>
@@ -15,6 +16,9 @@
   @Component
   export default class FormItem extends Vue {
     @Model('input',{type:String}) value!:string
+    @Prop({default:''}) placeholder!:string
+    @Prop({required:true})fieldName!:string
+    @Prop({default:''}) value!:string
   }
 </script>
 
