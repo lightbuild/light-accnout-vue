@@ -6,7 +6,7 @@
         <Icon name="right"></Icon>
       </router-link>
       <div class="createTag-wrapper">
-        <Button class="createTag">新增标签</Button>
+        <button class="createTag" @click="createTag">新增标签</button>
       </div>
     </div>
   </layout>
@@ -17,6 +17,7 @@
   import {Component} from 'vue-property-decorator';
   import Layout from '@/components/Layout.vue';
   import Icon from '@/components/Icon.vue';
+  import createdId from '@/lib/createId';
   
   @Component({
     components: {Icon, Layout}
@@ -27,6 +28,10 @@
     }
     get tagsList() {
       return this.$store.state.tagsList;
+    }
+    createTag(){
+      let maxId = createdId(this.tagsList)
+      this.$store.commit('createTag',maxId)
     }
   }
 </script>

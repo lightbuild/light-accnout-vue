@@ -7,7 +7,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     recordList: [] as RecordItem[],
-    tagsList: [] as TagsItem[]
+    tagsList: [] as TagsItem[],
+    currentTag:{} as TagsItem,
   },
   mutations: {
     saveTag(state) {
@@ -23,10 +24,15 @@ const store = new Vuex.Store({
       if (value) {
         if (nameList?.includes(value)) {
           alert('标签名重复了');
+          return;
         } else {
           state.tagsList.push({name: value, id: maxId});
+          store.commit('saveTag')
         }
       }
+    },
+    getCurrentTag(state,currentId:number){
+      state.currentTag = <TagsItem>state.tagsList.find(item => item.id === currentId)
     },
     saveRecord(state, record) {
       const record2 = cloneDeep(record);
