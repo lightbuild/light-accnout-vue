@@ -2,13 +2,13 @@
   <layout class-prefix="edit-label">
     <div class="nav-bar">
       <Icon class="leftIcon" name="left" @click="goBack"/>
-      <span class="title">编辑标签</span>
+      <span class="title">编辑标签名</span>
       <span class="rightIcon"></span>
     </div>
     <Input field-name="标签名" placeholder="请输入标签名"
            :value="currentTag.name"
            @input="updateTag"/>
-    <Button class="delete-tag" button-name="删除标签"/>
+    <Button class="delete-tag" button-name="删除标签" @click="removeTag"/>
   </layout>
 </template>
 
@@ -19,6 +19,7 @@
   import Layout from '@/components/Layout.vue';
   import Button from '@/components/Button.vue';
   import Input from '@/components/Input.vue';
+  import {cloneDeep} from 'lodash';
   @Component({
     components: {Input, Button, Layout, Icon}
   })
@@ -34,8 +35,11 @@
     goBack(){
       this.$router.go(-1)
     }
-    updateTag(){
-      console.log('111');
+    updateTag(newName:string){
+      this.$store.commit('updateTag',{id:this.currentTag.id,newName:newName})
+    }
+    removeTag(){
+      this.$store.commit('removeTag',this.currentTag.id)
     }
   }
 </script>

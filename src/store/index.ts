@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {cloneDeep} from 'lodash';
+import router from '@/router';
 
 Vue.use(Vuex);
 
@@ -31,8 +32,34 @@ const store = new Vuex.Store({
         }
       }
     },
+    removeTag(state,id:number){
+      const index = state.tagsList.findIndex(item=>item.id===id);
+      if(index != -1){
+        state.tagsList.splice(index,1);
+        store.commit('saveTag');
+        router.back();
+      } else{
+        window.alert('删除失败了')
+      }
+    },
     getCurrentTag(state,currentId:number){
       state.currentTag = <TagsItem>state.tagsList.find(item => item.id === currentId)
+    },
+    updateTag(state,payload:{id:number,newName:string}){
+      const {id,newName} = payload
+      const oldName = cloneDeep(state.currentTag.name)
+      if(newName){
+        if(state.tagsList.find(item => item.name === newName)){
+          state.currentTag.name = oldName
+          return window.alert('标签名重复了');
+        }else{
+          const tag = state.tagsList.find(item => item.id===id)
+          tag!.name = newName
+          store.commit('saveTag')
+        }
+      }else {
+        return 'note find'
+      }
     },
     saveRecord(state, record) {
       const record2 = cloneDeep(record);
